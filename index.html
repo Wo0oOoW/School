@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>МОУ «Агаповская СОШ №1 имени П.А. Скачкова»</title>
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-hover: #1d4ed8;
+            --accent: #0ea5e9;
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+            --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.05);
+            --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.12);
+            --radius: 14px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.high-contrast {
+            --primary: #000000;
+            --primary-hover: #333333;
+            --accent: #000000;
+            --bg-main: #ffffff;
+            --bg-card: #ffffff;
+            --text-main: #000000;
+            --text-muted: #000000;
+            --border: #000000;
+            font-size: 118%;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Верхняя панель */
+        .top-bar {
+            background: #e2e8f0;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .top-bar-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* Шапка */
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .school-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+        }
+
+        .school-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .school-title h1 {
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.25;
+        }
+
+        .school-title p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            text-decoration: none;
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(30, 64, 175, 0.25);
+        }
+
+        .btn-outline {
+            background: var(--bg-card);
+            color: var(--primary);
+            border-color: var(--border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: #eff6ff;
+            transform: translateY(-2px);
+        }
+
+        .btn-3d {
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            color: white;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+        }
+
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.45);
+        }
+
+        /* Переключение страниц */
+        .page-view {
+            display: none;
+        }
+
+        .page-view.active-page {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Главная страница */
+        .hero {
+            padding: 30px 0 20px;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 850px) {
+            .hero { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .card-interactive:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hero-banner h2 {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .hero-banner p {
+            opacity: 0.92;
+            margin-bottom: 22px;
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-white:hover {
+            background: #f1f5f9;
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Аккордеоны */
+        .section-title {
+            font-size: 21px;
+            margin: 32px 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 16px;
+        }
+
+        .accordion-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .accordion-header:hover {
+            background: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .accordion-icon {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #eff6ff;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.open .accordion-icon {
+            transform: rotate(180deg);
+            background: var(--primary);
+            color: white;
+        }
+
+        .accordion-content {
+            display: none;
+            background: #f8fafc;
+            border-top: 1px solid var(--border);
+            padding: 10px 20px 16px;
+        }
+
+        .accordion-item.open .accordion-content {
+            display: block;
+        }
+
+        .accordion-list {
+            list-style: none;
+        }
+
+        .accordion-list li {
+            margin-top: 6px;
+        }
+
+        .accordion-list button {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-list button:hover {
+            background: white;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Новости */
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .news-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* ================= 3D МАКЕТ ШКОЛЫ ================= */
+        .scene-layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 950px) {
+            .scene-layout { grid-template-columns: 1fr; }
+        }
+
+        .viewport-3d {
+            position: relative;
+            height: 540px;
+            border-radius: 18px;
+            overflow: hidden;
+            background: linear-gradient(180deg, #7dd3fc 0%, #e0f2fe 65%, #bbf7d0 100%);
+            border: 2px solid var(--border);
+            box-shadow: var(--shadow-md);
+            user-select: none;
+            transition: background 0.6s ease;
+        }
+
+        .viewport-3d.theme-winter {
+            background: linear-gradient(180deg, #1e293b 0%, #475569 60%, #f1f5f9 100%);
+        }
+
+        .viewport-3d.theme-subbotnik {
+            background: linear-gradient(180deg, #fde68a 0%, #fef3c7 60%, #a7f3d0 100%);
+        }
+
+        .viewport-3d.theme-sport {
+            background: linear-gradient(180deg, #38bdf8 0%, #bae6fd 60%, #86efac 100%);
+        }
+
+        .scene-controls-overlay {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            right: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            pointer-events: none;
+            z-index: 50;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .scene-badge {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+            pointer-events: auto;
+        }
+
+        .rotate-buttons {
+            display: flex;
+            gap: 6px;
+            pointer-events: auto;
+        }
+
+        .rotate-btn {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .rotate-btn:hover {
+            background: #eff6ff;
+            color: var(--primary);
+        }
+
+        /* 3D мир */
+        .world-stage {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1100px;
+            cursor: grab;
+        }
+
+        .world-stage:active {
+            cursor: grabbing;
+        }
+
+        .world-platform {
+            position: relative;
+            width: 440px;
+            height: 340px;
+            transform-style: preserve-3d;
+            transform: rotateX(55deg) rotateZ(-35deg);
+            transition: transform 0.25s ease-out;
+        }
+
+        /* Земля / Территория */
+        .ground-plate {
+            position: absolute;
+            inset: 0;
+            background: #86efac;
+            border: 6px solid #4ade80;
+            border-radius: 20px;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.25);
+            transition: background 0.5s, border-color 0.5s;
+        }
+
+        .theme-winter .ground-plate {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        /* Спортплощадка */
+        .sport-field {
+            position: absolute;
+            right: 22px;
+            bottom: 24px;
+            width: 140px;
+            height: 110px;
+            background: #f97316;
+            border: 3px solid white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* Здание школы (3D коробка) */
+        .school-building {
+            position: absolute;
+            left: 35px;
+            top: 40px;
+            width: 220px;
+            height: 130px;
+            transform-style: preserve-3d;
+        }
+
+        .b-roof {
+            position: absolute;
+            inset: 0;
+            background: #b91c1c;
+            border: 3px solid #7f1d1d;
+            transform: translateZ(75px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .theme-winter .b-roof {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+            color: #1e293b;
+        }
+
+        .b-front {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 220px;
+            height: 75px;
+            background: #fef08a;
+            border: 2px solid #ca8a04;
+            transform-origin: bottom;
+            transform: rotateX(-90deg);
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            padding: 10px;
+        }
+
+        .b-window {
+            background: #38bdf8;
+            border: 2px solid #0284c7;
+            border-radius: 3px;
+        }
+
+        .b-side {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 75px;
+            height: 130px;
+            background: #fde047;
+            border: 2px solid #ca8a04;
+            transform-origin: right;
+            transform: rotateY(90deg);
+        }
+
+        /* Интерактивные метки (Hotspots) - всегда поверх 3D */
+        .hotspot-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 40;
+        }
+
+        .hotspot-btn {
+            position: absolute;
+            pointer-events: auto;
+            background: #ffffff;
+            color: #0f172a;
+            border: 2px solid var(--primary);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: transform 0.2s, background 0.2s, color 0.2s;
+        }
+
+        .hotspot-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.08);
+            z-index: 60;
+        }
+
+        /* Динамические элементы событий на сцене */
+        .event-props {
+            position: absolute;
+            bottom: 18px;
+            left: 18px;
+            right: 18px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 14px;
+            padding: 14px 18px;
+            box-shadow: var(--shadow-md);
+            border-left: 5px solid var(--primary);
+            z-index: 45;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .props-characters {
+            font-size: 28px;
+            letter-spacing: 4px;
+        }
+
+        /* Календарь справа от 3D сцены */
+        .calendar-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            margin-top: 14px;
+            text-align: center;
+        }
+
+        .cal-day-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            padding-bottom: 4px;
+        }
+
+        .cal-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            background: #f8fafc;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+        }
+
+        .cal-day.event-day {
+            background: #eff6ff;
+            border-color: var(--primary);
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 800;
+            position: relative;
+        }
+
+        .cal-day.event-day::after {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ef4444;
+            margin-top: 2px;
+        }
+
+        .cal-day.event-day:hover, .cal-day.event-day.selected {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cal-day.event-day.selected::after {
+            background: #fde047;
+        }
+
+        /* Модальные окна */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-backdrop.active-modal {
+            display: flex;
+        }
+
+        .modal-window {
+            background: white;
+            border-radius: 16px;
+            max-width: 640px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+            padding: 26px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .close-x {
+            background: #f1f5f9;
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .close-x:hover {
+            background: #e2e8f0;
+        }
+
+        /* Таблицы в модалках */
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        table.data-table th, table.data-table td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: left;
+        }
+
+        table.data-table th {
+            background: #f1f5f9;
+        }
+
+        .grade-cell {
+            cursor: pointer;
+            font-weight: 800;
+            text-align: center !important;
+            background: #eff6ff;
+            color: var(--primary);
+            border-radius: 6px;
+        }
+
+        .grade-cell:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        footer {
+            margin-top: 60px;
+            background: #0f172a;
+            color: #cbd5e1;
+            padding: 36px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="container top-bar-inner">
+            <span>📍 с. Агаповка, ул. Пролетарская, д. 54 | 📞 +7 (3514) 02-13-26</span>
+            <button type="button" class="btn btn-outline" id="btnContrast" style="padding: 5px 12px; font-size: 13px;">
+                👁️ Версия для слабовидящих
+            </button>
+        </div>
+    </div>
+
+    <header>
+        <div class="container header-grid">
+            <div class="school-brand" id="navHomeBrand">
+                <div class="school-logo">№1</div>
+                <div class="school-title">
+                    <h1>МОУ «Агаповская СОШ №1 имени П.А. Скачкова»</h1>
+                    <p>Официальный информационный портал школы</p>
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button type="button" class="btn btn-outline" id="btnShowMain">🏠 Главная</button>
+                <button type="button" class="btn btn-3d" id="btnShow3D">🏫 Интерактивный 3D-макет</button>
+                <button type="button" class="btn btn-primary" id="btnOpenFeedback">✉️ Задать вопрос</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- СТРАНИЦА 1: ГЛАВНАЯ -->
+    <main class="container page-view active-page" id="pageMain">
+        <section class="hero">
+            <div class="card hero-banner">
+                <div>
+                    <span class="badge" style="background: rgba(255,255,255,0.2); color: white;">Обновленный портал</span>
+                    <h2>Добро пожаловать в нашу школу!</h2>
+                    <p>Удобная навигация, расписание уроков, электронный журнал и интерактивная 3D-карта школьной жизни.</p>
+                </div>
+                <div class="quick-actions">
+                    <button type="button" class="btn btn-white" id="heroBtn3D">🏫 Открыть 3D-макет школы</button>
+                    <button type="button" class="btn btn-white" id="heroBtnSchedule">📅 Расписание звонков</button>
+                    <a href="https://myschool.edu.ru" target="_blank" class="btn btn-white">🎓 ТОР «Моя школа»</a>
+                </div>
+            </div>
+
+            <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <span class="badge">Руководство и приемная</span>
+                    <h3 style="font-size: 18px; margin-bottom: 4px;">Губаренко Ирина Геннадьевна</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 14px;">Директор образовательного учреждения</p>
+                    <p style="font-size: 14px; margin-bottom: 6px;">📞 <strong>Телефон:</strong> +7 (3514) 02-13-26</p>
+                    <p style="font-size: 14px; margin-bottom: 16px;">📧 <strong>Почта:</strong> school1agapovka@agapovka.gov74.ru</p>
+                </div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button type="button" class="btn btn-primary" id="cardBtnFeedback">Написать директору</button>
+                    <button type="button" class="btn btn-outline" id="cardBtnStaff">Весь состав администрации</button>
+                </div>
+            </div>
+        </section>
+
+        <h2 class="section-title">
+            <span>Разделы сайта (нажмите, чтобы открыть список)</span>
+            <button type="button" class="btn btn-outline" id="btnToggleAll" style="font-size: 13px; padding: 6px 12px;">Развернуть / Свернуть все</button>
+        </h2>
+
+        <div class="nav-grid">
+            <div class="accordion-item">
+                <button type="button" class="accordion-header">
+                    <span>🏫 О нас и сведения об организации</span>
+                    <span class="accordion-icon">▼</span>
+                </button>
+                <div class="accordion-content">
+                    <ul class="accordion-list">
+                        <li><button type="button" data-info="Основные сведения: МОУ «Агаповская СОШ №1 имени П.А. Скачкова» основана в 1936 году. Учредитель — Управление образования Агаповского муниципального округа.">Основные сведения <span>→</span></button></li>
+                        <li><button type="button" data-modal="modalStaff">Структура и органы управления (Администрация) <span>→</span></button></li>
+                        <li><button type="button" data-info="Отчет о самообследовании за 2025–2026 учебный год доступен в разделе документов.">Самообследование и программа развития <span>→</span></button></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button type="button" class="accordion-header">
+                    <span>📚 Деятельность и обучение</span>
+                    <span class="accordion-icon">▼</span>
+                </button>
+                <div class="accordion-content">
+                    <ul class="accordion-list">
+                        <li><button type="button" data-modal="modalSchedule">Расписание уроков и звонков <span>→</span></button></li>
+                        <li><button type="button" data-modal="modalJournal">Электронный журнал класса (Демо) <span>→</span></button></li>
+                        <li><button type="button" data-info="В школе работают секции баскетбола, волейбола, шахматный клуб и центр «Точка роста».">Кружки и дополнительное образование <span>→</span></button></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <button type="button" class="accordion-header">
+                    <span>🕒 Условия, питание и безопасность</span>
+                    <span class="accordion-icon">▼</span>
+                </button>
+                <div class="accordion-content">
+                    <ul class="accordion-list">
+                        <li><button type="button" data-modal="modalMenu">Ежедневное меню школьной столовой <span>→</span></button></li>
+                        <li><button type="button" data-info="Паспорт дорожной безопасности и инструкции по пожарной безопасности обновлены.">Дорожная и пожарная безопасность <span>→</span></button></li>
+                        <li><button type="button" data-info="Прием заявлений в 1 класс осуществляется через портал Госуслуги и в канцелярии школы.">Прием в школу и вакантные места <span>→</span></button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <h2>Новости школы</h2>
+            <div class="filter-tabs">
+                <button type="button" class="tab-btn active" data-filter="all">Все здания</button>
+                <button type="button" class="tab-btn" data-filter="54">ул. Пролетарская, д. 54</button>
+                <button type="button" class="tab-btn" data-filter="44">ул. Пролетарская, д. 44</button>
+            </div>
+        </div>
+
+        <div class="news-grid">
+            <article class="card card-interactive news-card" data-building="54">
+                <div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">ул. Пролетарская, д. 54</div>
+                    <h3 style="font-size: 17px; margin-bottom: 14px;">Советы родителям первоклассников в период адаптации к школе!</h3>
+                </div>
+                <button type="button" class="btn btn-outline" style="width: fit-content;" data-news-title="Советы родителям первоклассников" data-news-text="Педагог-психолог школы подготовил памятку для родителей: соблюдайте режим дня, хвалите ребенка за старания и выделяйте время на спокойный отдых после уроков.">Читать полностью →</button>
+            </article>
+
+            <article class="card card-interactive news-card" data-building="44">
+                <div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">ул. Пролетарская, д. 44</div>
+                    <h3 style="font-size: 17px; margin-bottom: 14px;">Сдавай ГТО! Итоги спортивного фестиваля среди школьников</h3>
+                </div>
+                <button type="button" class="btn btn-outline" style="width: fit-content;" data-news-title="Итоги фестиваля ГТО" data-news-text="Ученики 5–11 классов сдали нормативы по бегу, прыжкам в длину и подтягиванию. Победители награждены грамотами и значками отличия на школьной линейке.">Читать полностью →</button>
+            </article>
+
+            <article class="card card-interactive news-card" data-building="54">
+                <div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">ул. Пролетарская, д. 54</div>
+                    <h3 style="font-size: 17px; margin-bottom: 14px;">Акция «Пристегни ремни!» — безопасность на дорогах</h3>
+                </div>
+                <button type="button" class="btn btn-outline" style="width: fit-content;" data-news-title="Акция «Пристегни ремни!»" data-news-text="Отряд ЮИД совместно с инспекторами ГИБДД провел утренний рейд возле школы и напомнил водителям и ученикам о правилах безопасной перевозки детей.">Читать полностью →</button>
+            </article>
+        </div>
+    </main>
+
+    <!-- СТРАНИЦА 2: ИНТЕРАКТИВНЫЙ 3D МАКЕТ -->
+    <section class="container page-view" id="page3D">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; flex-wrap: wrap; gap: 12px;">
+            <div>
+                <h2 style="font-size: 24px;">Интерактивный 3D-макет школы</h2>
+                <p style="color: var(--text-muted); font-size: 14px;">Вращайте здание мышкой или кнопками, нажимайте на метки и выбирайте даты в календаре справа.</p>
+            </div>
+            <button type="button" class="btn btn-outline" id="btnBackFrom3D">← Вернуться на главную</button>
+        </div>
+
+        <div class="scene-layout">
+            <!-- Левая часть: 3D Сцена -->
+            <div class="viewport-3d" id="viewport3D">
+                <div class="scene-controls-overlay">
+                    <div class="scene-badge" id="sceneWeatherLabel">☀️ Обычный учебный день</div>
+                    <div class="rotate-buttons">
+                        <button type="button" class="rotate-btn" id="rotLeft">↺ Влево</button>
+                        <button type="button" class="rotate-btn" id="rotReset">⌖ Центр</button>
+                        <button type="button" class="rotate-btn" id="rotRight">Вправо ↻</button>
+                    </div>
+                </div>
+
+                <!-- Кликабельные метки (Hotspots) -->
+                <div class="hotspot-layer">
+                    <button type="button" class="hotspot-btn" style="top: 110px; left: 12%;" data-modal="modalSchedule">
+                        📅 Доска расписания
+                    </button>
+                    <button type="button" class="hotspot-btn" style="top: 105px; right: 14%;" data-modal="modalStaff">
+                        👩‍🏫 Учителя и администрация
+                    </button>
+                    <button type="button" class="hotspot-btn" style="top: 230px; left: 18%;" data-modal="modalJournal">
+                        📖 Кабинеты и Эл. журнал
+                    </button>
+                    <button type="button" class="hotspot-btn" style="top: 225px; right: 16%;" data-modal="modalMenu">
+                        🍽️ Школьная столовая
+                    </button>
+                </div>
+
+                <!-- 3D Сцена -->
+                <div class="world-stage" id="worldStage">
+                    <div class="world-platform" id="worldPlatform">
+                        <div class="ground-plate"></div>
+                        <div class="sport-field">СПОРТПЛОЩАДКА<br>И СТАДИОН</div>
+                        <div class="school-building">
+                            <div class="b-roof">АГАПОВСКАЯ СОШ №1</div>
+                            <div class="b-front">
+                                <div class="b-window"></div>
+                                <div class="b-window"></div>
+                                <div class="b-window"></div>
+                                <div class="b-window"></div>
+                                <div class="b-window"></div>
+                            </div>
+                            <div class="b-side"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Нижняя панель события на сцене -->
+                <div class="event-props" id="eventBanner">
+                    <div>
+                        <strong id="eventTitle" style="font-size: 15px; display: block;">Учебный процесс идет по расписанию</strong>
+                        <span id="eventDesc" style="font-size: 13px; color: var(--text-muted);">Нажмите на кружочек с датой в календаре справа, чтобы увидеть, как меняется школа во время праздников, субботника или соревнований.</span>
+                    </div>
+                    <div class="props-characters" id="eventIcons">🏫📚✏️</div>
+                </div>
+            </div>
+
+            <!-- Правая часть: Календарь событий -->
+            <div class="calendar-card">
+                <h3 style="font-size: 18px; margin-bottom: 4px;">Календарь событий</h3>
+                <p style="font-size: 13px; color: var(--text-muted);">Нажмите на отмеченную дату:</p>
+
+                <div class="cal-grid">
+                    <div class="cal-day-name">Пн</div>
+                    <div class="cal-day-name">Вт</div>
+                    <div class="cal-day-name">Ср</div>
+                    <div class="cal-day-name">Чт</div>
+                    <div class="cal-day-name">Пт</div>
+                    <div class="cal-day-name">Сб</div>
+                    <div class="cal-day-name">Вс</div>
+
+                    <div class="cal-day">1</div>
+                    <div class="cal-day">2</div>
+                    <div class="cal-day">3</div>
+                    <div class="cal-day">4</div>
+                    <div class="cal-day">5</div>
+                    <div class="cal-day">6</div>
+                    <div class="cal-day">7</div>
+                    <div class="cal-day">8</div>
+                    <div class="cal-day">9</div>
+                    <div class="cal-day">10</div>
+                    <div class="cal-day">11</div>
+                    <div class="cal-day">12</div>
+                    <div class="cal-day">13</div>
+                    <div class="cal-day">14</div>
+
+                    <button type="button" class="cal-day event-day" data-event="subbotnik">15</button>
+                    <div class="cal-day">16</div>
+                    <div class="cal-day">17</div>
+                    <div class="cal-day">18</div>
+                    <div class="cal-day">19</div>
+                    <div class="cal-day">20</div>
+                    <div class="cal-day">21</div>
+
+                    <button type="button" class="cal-day event-day" data-event="sport">22</button>
+                    <div class="cal-day">23</div>
+                    <div class="cal-day">24</div>
+                    <div class="cal-day">25</div>
+                    <div class="cal-day">26</div>
+                    <div class="cal-day">27</div>
+                    <div class="cal-day">28</div>
+                    <div class="cal-day">29</div>
+
+                    <button type="button" class="cal-day event-day" data-event="newyear">30</button>
+                    <div class="cal-day">31</div>
+                </div>
+
+                <div style="margin-top: 18px; display: flex; flex-direction: column; gap: 8px;">
+                    <button type="button" class="btn btn-outline" style="justify-content: flex-start;" data-event="subbotnik">🍂 15 число — Школьный субботник</button>
+                    <button type="button" class="btn btn-outline" style="justify-content: flex-start;" data-event="sport">🏅 22 число — Спартакиада на стадионе</button>
+                    <button type="button" class="btn btn-outline" style="justify-content: flex-start;" data-event="newyear">🎄 30 число — Новогодние каникулы</button>
+                    <button type="button" class="btn btn-outline" style="justify-content: flex-start;" data-event="normal">☀️ Обычный учебный день</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- МОДАЛЬНЫЕ ОКНА -->
+    <!-- 1. Расписание -->
+    <div class="modal-backdrop" id="modalSchedule">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3>📅 Расписание звонков и уроков (9 «А» класс)</h3>
+                <button type="button" class="close-x" data-close-modal>✕</button>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Время</th>
+                        <th>Понедельник</th>
+                        <th>Вторник</th>
+                        <th>Среда</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>08:30 – 09:10</td><td>Разговоры о важном</td><td>Алгебра (каб. 204)</td><td>Русский язык (каб. 301)</td></tr>
+                    <tr><td>2</td><td>09:20 – 10:00</td><td>Русский язык (каб. 301)</td><td>Геометрия (каб. 204)</td><td>Физика (каб. 210)</td></tr>
+                    <tr><td>3</td><td>10:20 – 11:00</td><td>История (каб. 305)</td><td>Информатика (каб. 108)</td><td>Английский язык</td></tr>
+                    <tr><td>4</td><td>11:20 – 12:00</td><td>Биология (каб. 212)</td><td>Литература (каб. 301)</td><td>Физкультура (Спортзал)</td></tr>
+                    <tr><td>5</td><td>12:10 – 12:50</td><td>Химия (каб. 214)</td><td>Обществознание</td><td>География (каб. 308)</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 2. Учителя и администрация -->
+    <div class="modal-backdrop" id="modalStaff">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3>👩‍🏫 Администрация и педагогический состав</h3>
+                <button type="button" class="close-x" data-close-modal>✕</button>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ФИО</th>
+                        <th>Должность / Предмет</th>
+                        <th>Кабинет</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Губаренко Ирина Геннадьевна</strong></td><td>Директор школы</td><td>Приемная (1 этаж)</td></tr>
+                    <tr><td>Смирнова Елена Викторовна</td><td>Зам. директора по УВР</td><td>Каб. 102</td></tr>
+                    <tr><td>Козлов Андрей Николаевич</td><td>Учитель информатики и физики</td><td>Каб. 108 («Точка роста»)</td></tr>
+                    <tr><td>Петрова Наталья Сергеевна</td><td>Учитель русского языка и литературы</td><td>Каб. 301</td></tr>
+                    <tr><td>Иванов Дмитрий Павлович</td><td>Учитель физической культуры</td><td>Спортзал</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 3. Интерактивный электронный журнал -->
+    <div class="modal-backdrop" id="modalJournal">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3>📖 Электронный журнал на столе учителя (Каб. 204 — Алгебра)</h3>
+                <button type="button" class="close-x" data-close-modal>✕</button>
+            </div>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">
+                Нажмите на любую клетку с оценкой, чтобы изменить её (интерактивный режим).
+            </p>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Ученик</th>
+                        <th>12.11</th>
+                        <th>13.11</th>
+                        <th>14.11</th>
+                        <th>Домашнее задание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Алексеев Артем</td>
+                        <td class="grade-cell">5</td>
+                        <td class="grade-cell">4</td>
+                        <td class="grade-cell">5</td>
+                        <td>§ 14, № 215–218</td>
+                    </tr>
+                    <tr>
+                        <td>Борисова Анна</td>
+                        <td class="grade-cell">5</td>
+                        <td class="grade-cell">5</td>
+                        <td class="grade-cell">5</td>
+                        <td>§ 14, № 215–218</td>
+                    </tr>
+                    <tr>
+                        <td>Волков Максим</td>
+                        <td class="grade-cell">Н</td>
+                        <td class="grade-cell">3</td>
+                        <td class="grade-cell">4</td>
+                        <td>§ 14, № 215–218</td>
+                    </tr>
+                    <tr>
+                        <td>Громова Дарья</td>
+                        <td class="grade-cell">4</td>
+                        <td class="grade-cell">5</td>
+                        <td class="grade-cell">4</td>
+                        <td>§ 14, № 215–218</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 4. Меню столовой -->
+    <div class="modal-backdrop" id="modalMenu">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3>🍽️ Меню школьной столовой на сегодня</h3>
+                <button type="button" class="close-x" data-close-modal>✕</button>
+            </div>
+            <ul style="padding-left: 20px; line-height: 2;">
+                <li><strong>Завтрак (1–4 классы):</strong> Каша молочная овсяная, бутерброд с сыром, какао.</li>
+                <li><strong>Обед (5–11 классы):</strong> Суп картофельный с фрикадельками, котлета куриная с гречкой, компот из сухофруктов, хлеб.</li>
+                <li><strong>Полдник:</strong> Булочка с корицей, яблоко свежее.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 5. Универсальное окно для новостей и информации -->
+    <div class="modal-backdrop" id="modalInfo">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3 id="infoModalTitle">Информация</h3>
+                <button type="button" class="close-x" data-close-modal>✕</button>
+            </div>
+            <p id="infoModalBody" style="font-size: 15px; line-height: 1.6;"></p>
+        </div>
+    </div>
+
+    <!-- 6. Форма обратной связи -->
+    <div class="modal-backdrop" id="modalFeedback">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3>✉️ Задать вопрос администрации школы</h3>
+                <button type="button" class="close-x" data-close-modal>✕</button>
+            </div>
+            <form id="feedbackForm">
+                <div class="form-group">
+                    <label>Ваше имя (Ученик / Родитель)</label>
+                    <input type="text" placeholder="Иван Иванов" required>
+                </div>
+                <div class="form-group">
+                    <label>Телефон или Email для ответа</label>
+                    <input type="text" placeholder="+7 (900) 000-00-00" required>
+                </div>
+                <div class="form-group">
+                    <label>Ваш вопрос или предложение</label>
+                    <textarea rows="4" placeholder="Напишите ваше сообщение..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Отправить обращение</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p><strong>МОУ «Агаповская СОШ № 1 имени П.А. Скачкова»</strong></p>
+            <p style="margin-top: 6px;">457400, Челябинская область, с. Агаповка, ул. Пролетарская, д. 54</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // 1. Переключение страниц (Главная / 3D-макет)
+            const pageMain = document.getElementById("pageMain");
+            const page3D = document.getElementById("page3D");
+
+            function showPage(target) {
+                pageMain.classList.remove("active-page");
+                page3D.classList.remove("active-page");
+                target.classList.add("active-page");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+
+            document.getElementById("btnShowMain").addEventListener("click", () => showPage(pageMain));
+            document.getElementById("navHomeBrand").addEventListener("click", () => showPage(pageMain));
+            document.getElementById("btnBackFrom3D").addEventListener("click", () => showPage(pageMain));
+
+            document.getElementById("btnShow3D").addEventListener("click", () => showPage(page3D));
+            document.getElementById("heroBtn3D").addEventListener("click", () => showPage(page3D));
+
+            // 2. Версия для слабовидящих
+            document.getElementById("btnContrast").addEventListener("click", function () {
+                document.body.classList.toggle("high-contrast");
+            });
+
+            // 3. Управление модальными окнами
+            function openModalById(id) {
+                const modal = document.getElementById(id);
+                if (modal) modal.classList.add("active-modal");
+            }
+
+            function closeAllModals() {
+                document.querySelectorAll(".modal-backdrop").forEach(m => m.classList.remove("active-modal"));
+            }
+
+            document.querySelectorAll("[data-modal]").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    openModalById(this.getAttribute("data-modal"));
+                });
+            });
+
+            document.getElementById("heroBtnSchedule").addEventListener("click", () => openModalById("modalSchedule"));
+            document.getElementById("cardBtnStaff").addEventListener("click", () => openModalById("modalStaff"));
+            document.getElementById("btnOpenFeedback").addEventListener("click", () => openModalById("modalFeedback"));
+            document.getElementById("cardBtnFeedback").addEventListener("click", () => openModalById("modalFeedback"));
+
+            document.querySelectorAll("[data-close-modal]").forEach(btn => {
+                btn.addEventListener("click", closeAllModals);
+            });
+
+            document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
+                backdrop.addEventListener("click", function (e) {
+                    if (e.target === backdrop) closeAllModals();
+                });
+            });
+
+            // 4. Информационные кнопки и новости
+            document.querySelectorAll("[data-info]").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    document.getElementById("infoModalTitle").textContent = "Справка по разделу";
+                    document.getElementById("infoModalBody").textContent = this.getAttribute("data-info");
+                    openModalById("modalInfo");
+                });
+            });
+
+            document.querySelectorAll("[data-news-title]").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    document.getElementById("infoModalTitle").textContent = this.getAttribute("data-news-title");
+                    document.getElementById("infoModalBody").textContent = this.getAttribute("data-news-text");
+                    openModalById("modalInfo");
+                });
+            });
+
+            // Отправка формы обратной связи
+            document.getElementById("feedbackForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+                closeAllModals();
+                document.getElementById("infoModalTitle").textContent = "Обращение отправлено!";
+                document.getElementById("infoModalBody").textContent = "Спасибо! Ваше сообщение успешно зарегистрировано в приемной школы.";
+                openModalById("modalInfo");
+                this.reset();
+            });
+
+            // 5. Аккордеоны на главной
+            document.querySelectorAll(".accordion-header").forEach(header => {
+                header.addEventListener("click", function () {
+                    this.parentElement.classList.toggle("open");
+                });
+            });
+
+            let allOpen = false;
+            document.getElementById("btnToggleAll").addEventListener("click", function () {
+                allOpen = !allOpen;
+                document.querySelectorAll(".accordion-item").forEach(item => {
+                    if (allOpen) item.classList.add("open");
+                    else item.classList.remove("open");
+                });
+            });
+
+            // 6. Фильтр новостей
+            document.querySelectorAll(".tab-btn").forEach(tab => {
+                tab.addEventListener("click", function () {
+                    document.querySelectorAll(".tab-btn").forEach(t => t.classList.remove("active"));
+                    this.classList.add("active");
+                    const filter = this.getAttribute("data-filter");
+                    document.querySelectorAll(".news-card").forEach(card => {
+                        if (filter === "all" || card.getAttribute("data-building") === filter) {
+                            card.style.display = "flex";
+                        } else {
+                            card.style.display = "none";
+                        }
+                    });
+                });
+            });
+
+            // 7. Интерактивный электронный журнал (смена оценок по клику)
+            const gradesCycle = ["5", "4", "3", "2", "Н"];
+            document.querySelectorAll(".grade-cell").forEach(cell => {
+                cell.addEventListener("click", function () {
+                    const current = this.textContent.trim();
+                    const nextIdx = (gradesCycle.indexOf(current) + 1) % gradesCycle.length;
+                    this.textContent = gradesCycle[nextIdx];
+                });
+            });
+
+            // 8. Вращение 3D-макета (кнопками и мышкой)
+            const platform = document.getElementById("worldPlatform");
+            const stage = document.getElementById("worldStage");
+            let rotZ = -35;
+            let isDragging = false;
+            let startX = 0;
+
+            function updateRotation() {
+                platform.style.transform = `rotateX(55deg) rotateZ(${rotZ}deg)`;
+            }
+
+            document.getElementById("rotLeft").addEventListener("click", () => { rotZ -= 25; updateRotation(); });
+            document.getElementById("rotRight").addEventListener("click", () => { rotZ += 25; updateRotation(); });
+            document.getElementById("rotReset").addEventListener("click", () => { rotZ = -35; updateRotation(); });
+
+            stage.addEventListener("mousedown", (e) => {
+                isDragging = true;
+                startX = e.clientX;
+            });
+
+            window.addEventListener("mouseup", () => {
+                isDragging = false;
+            });
+
+            window.addEventListener("mousemove", (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - startX;
+                rotZ += deltaX * 0.4;
+                startX = e.clientX;
+                updateRotation();
+            });
+
+            // 9. События календаря на 3D-сцене
+            const viewport3D = document.getElementById("viewport3D");
+            const weatherLabel = document.getElementById("sceneWeatherLabel");
+            const eventTitle = document.getElementById("eventTitle");
+            const eventDesc = document.getElementById("eventDesc");
+            const eventIcons = document.getElementById("eventIcons");
+
+            const eventsData = {
+                normal: {
+                    theme: "",
+                    weather: "☀️ Обычный учебный день",
+                    title: "Учебный процесс идет по расписанию",
+                    desc: "Занятия проходят в обычном режиме с 08:30. Работают кружки и секции.",
+                    icons: "🏫📚✏️"
+                },
+                subbotnik: {
+                    theme: "theme-subbotnik",
+                    weather: "🍂 Школьный субботник (15 число)",
+                    title: "Общешкольный субботник по благоустройству территории",
+                    desc: "Ученики и учителя с граблями и мешками убирают листву во дворе школы.",
+                    icons: "🧑‍🌾🧹🍂🗑️👩‍🏫"
+                },
+                sport: {
+                    theme: "theme-sport",
+                    weather: "🏅 Школьная спартакиада (22 число)",
+                    title: "Спортивные соревнования на стадионе школы",
+                    desc: "На спортплощадке проходят эстафеты, забеги и торжественное вручение медалей!",
+                    icons: "🏃‍♂️⚽🏆🥇🥈"
+                },
+                newyear: {
+                    theme: "theme-winter",
+                    weather: "❄️ Новогодние каникулы (30 число)",
+                    title: "Зимние каникулы: школа отдыхает с 30 декабря по 8 января",
+                    desc: "Во дворе установлена нарядная ёлка, Дед Мороз поздравляет ребят! Расписание праздничных ёлок открыто.",
+                    icons: "🎄🎅❄️🎁⛄"
+                }
+            };
+
+            function applyEvent(key) {
+                const data = eventsData[key] || eventsData.normal;
+                viewport3D.className = "viewport-3d " + data.theme;
+                weatherLabel.textContent = data.weather;
+                eventTitle.textContent = data.title;
+                eventDesc.textContent = data.desc;
+                eventIcons.textContent = data.icons;
+
+                document.querySelectorAll(".cal-day.event-day").forEach(d => {
+                    d.classList.toggle("selected", d.getAttribute("data-event") === key);
+                });
+            }
+
+            document.querySelectorAll("[data-event]").forEach(el => {
+                el.addEventListener("click", function () {
+                    applyEvent(this.getAttribute("data-event"));
+                });
+            });
+        });
+    </script>
+</body>
+</html>
