@@ -1,0 +1,602 @@
+import os
+
+os.makedirs("generated", exist_ok=True)
+
+html_code = """<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>МОУ «Агаповская СОШ №1 имени П.А. Скачкова»</title>
+<style>
+:root {
+  --primary: #1e40af;
+  --primary-hover: #1d4ed8;
+  --accent: #0ea5e9;
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --border: #e2e8f0;
+  --shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+}
+body.contrast {
+  --primary: #000;
+  --primary-hover: #222;
+  --accent: #000;
+  --bg-main: #fff;
+  --bg-card: #fff;
+  --text-main: #000;
+  --text-muted: #000;
+  --border: #000;
+  font-size: 115%;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; }
+.container { max-width: 1140px; margin: 0 auto; padding: 0 16px; }
+
+.topbar { background: #e2e8f0; padding: 8px 0; font-size: 13px; }
+.topbar-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+
+header { background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 14px 0; position: sticky; top: 0; z-index: 50; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.header-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.logo { width: 46px; height: 46px; border-radius: 12px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; flex-shrink: 0; }
+.brand h1 { font-size: 16px; line-height: 1.25; }
+.brand p { font-size: 12px; color: var(--text-muted); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 14px; border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: 0.2s; -webkit-tap-highlight-color: transparent; }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-outline { background: var(--bg-card); color: var(--primary); border-color: var(--border); }
+.btn-accent { background: linear-gradient(135deg, #0284c7, #2563eb); color: #fff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+
+/* Переключение страниц */
+.view-section { display: none; padding: 20px 0 40px; }
+.view-section.active { display: block; }
+
+/* Главная */
+.hero { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; margin-bottom: 24px; }
+@media (max-width: 800px) { .hero { grid-template-columns: 1fr; } }
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; box-shadow: var(--shadow); }
+.hero-banner { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; display: flex; flex-direction: column; justify-content: space-between; }
+.hero-banner h2 { font-size: 22px; margin-bottom: 10px; }
+.hero-banner p { font-size: 14px; opacity: 0.92; margin-bottom: 18px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn-white { background: #fff; color: var(--primary); }
+
+.badge { display: inline-block; background: #dbeafe; color: var(--primary); font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
+
+/* Аккордеоны на чистом details */
+.sec-title { font-size: 20px; margin: 24px 0 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+details.acc { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+details.acc summary { padding: 15px 18px; font-weight: 700; font-size: 15px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+details.acc summary::-webkit-details-marker { display: none; }
+details.acc summary::after { content: "▼"; font-size: 12px; color: var(--primary); transition: 0.25s; }
+details.acc[open] summary::after { transform: rotate(180deg); }
+.acc-body { padding: 8px 18px 16px; border-top: 1px solid var(--border); background: #f8fafc; }
+.acc-body a { display: block; padding: 8px 10px; color: var(--text-main); text-decoration: none; border-radius: 8px; font-size: 14px; }
+.acc-body a:hover { background: #fff; color: var(--primary); }
+
+/* Новости */
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.tab { padding: 7px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg-card); font-size: 13px; font-weight: 600; cursor: pointer; }
+.tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.news-item { display: flex; flex-direction: column; justify-content: space-between; }
+.news-date { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+.news-item h3 { font-size: 16px; margin-bottom: 12px; }
+
+/* 3D Раздел */
+.layout-3d { display: grid; grid-template-columns: 1.6fr 1fr; gap: 18px; }
+@media (max-width: 900px) { .layout-3d { grid-template-columns: 1fr; } }
+
+.canvas-wrap { position: relative; width: 100%; height: 420px; border-radius: 14px; overflow: hidden; background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 65%, #dcfce7 100%); border: 1px solid var(--border); touch-action: none; }
+.canvas-wrap.winter { background: linear-gradient(180deg, #1e293b 0%, #334155 65%, #f1f5f9 100%); }
+#glCanvas { width: 100%; height: 100%; display: block; }
+
+.scene-status { position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,0.9); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; color: #0f172a; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.scene-pins { position: absolute; bottom: 12px; left: 12px; right: 12px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.pin-btn { background: rgba(15, 23, 42, 0.88); color: #fff; border: 1px solid rgba(255,255,255,0.25); padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; backdrop-filter: blur(4px); }
+.pin-btn.active { background: #2563eb; border-color: #93c5fd; }
+
+/* Календарь событий */
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin: 12px 0; text-align: center; }
+.cal-day { padding: 8px 4px; border-radius: 8px; font-size: 13px; background: #f1f5f9; color: var(--text-muted); }
+.cal-event { background: #dbeafe; color: var(--primary); font-weight: 800; border: 2px solid var(--primary); cursor: pointer; position: relative; }
+.cal-event.selected { background: var(--primary); color: #fff; }
+
+.info-panel { margin-top: 14px; padding: 14px; border-radius: 12px; background: #f8fafc; border: 1px solid var(--border); font-size: 14px; }
+.info-panel h4 { font-size: 16px; margin-bottom: 8px; color: var(--primary); }
+
+table.journal { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
+table.journal th, table.journal td { border: 1px solid var(--border); padding: 6px 8px; text-align: center; }
+.grade-cell { cursor: pointer; font-weight: 700; background: #eff6ff; color: var(--primary); border-radius: 4px; }
+
+/* Модалка */
+.modal { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.55); z-index: 100; align-items: center; justify-content: center; padding: 16px; }
+.modal.open { display: flex; }
+.modal-card { background: #fff; border-radius: 14px; padding: 22px; max-width: 420px; width: 100%; }
+.field { margin-bottom: 12px; }
+.field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.field input, .field textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; }
+
+footer { background: #0f172a; color: #cbd5e1; padding: 28px 0; font-size: 13px; margin-top: 30px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container topbar-inner">
+    <span>📍 с. Агаповка, ул. Пролетарская, д. 54 | 📞 +7 (3514) 02-13-26</span>
+    <button type="button" class="btn btn-outline" id="btnContrast" style="padding: 5px 10px; font-size: 12px;">👁️ Для слабовидящих</button>
+  </div>
+</div>
+
+<header>
+  <div class="container header-inner">
+    <div class="brand">
+      <div class="logo">№1</div>
+      <div>
+        <h1>МОУ «Агаповская СОШ №1 имени П.А. Скачкова»</h1>
+        <p>Официальный сайт школы</p>
+      </div>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button type="button" class="btn btn-outline" id="navHome">🏠 Главная</button>
+      <button type="button" class="btn btn-accent" id="nav3D">🏫 3D-макет школы</button>
+      <button type="button" class="btn btn-primary" id="btnAsk">✉️ Вопрос</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <!-- ГЛАВНАЯ СТРАНИЦА -->
+  <section id="viewHome" class="view-section active">
+    <div class="hero">
+      <div class="card hero-banner">
+        <div>
+          <span class="badge" style="background:rgba(255,255,255,0.2); color:#fff;">Обновленный портал</span>
+          <h2>Добро пожаловать в нашу школу!</h2>
+          <p>Удобный доступ к расписанию, документам, новостям и интерактивному 3D-макету здания с календарем школьных событий.</p>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn btn-white" id="heroBtn3D">🏫 Открыть 3D-макет школы</button>
+          <a href="#sectionsBlock" class="btn btn-white">📂 Разделы сайта</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge">Руководство</span>
+        <h3 style="font-size:17px; margin-bottom:4px;">Губаренко Ирина Геннадьевна</h3>
+        <p style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">Директор образовательного учреждения</p>
+        <p style="font-size:13px; margin-bottom:4px;">📞 +7 (3514) 02-13-26</p>
+        <p style="font-size:13px; margin-bottom:14px;">📧 school1agapovka@agapovka.gov74.ru</p>
+        <button type="button" class="btn btn-primary" id="btnDirectorAsk" style="width:100%;">Написать директору</button>
+      </div>
+    </div>
+
+    <h2 class="sec-title" id="sectionsBlock">Разделы сайта</h2>
+    <div class="grid-2">
+      <details class="acc">
+        <summary>🏫 О нас и сведения об организации</summary>
+        <div class="acc-body">
+          <a href="#sectionsBlock">Основные сведения и структура управления</a>
+          <a href="#sectionsBlock">Самообследование и программа развития</a>
+          <a href="#sectionsBlock">Достижения учеников и педагогов</a>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>📚 Деятельность и обучение</summary>
+        <div class="acc-body">
+          <a href="#sectionsBlock">Образовательные стандарты и программы</a>
+          <a href="#sectionsBlock">Движение Первых и Разговоры о важном</a>
+          <a href="#sectionsBlock">Кружки, секции и школьный спортклуб</a>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>🕒 Условия, питание и расписание</summary>
+        <div class="acc-body">
+          <a href="#sectionsBlock">Расписание звонков и уроков</a>
+          <a href="#sectionsBlock">Ежедневное меню и график питания</a>
+          <a href="#sectionsBlock">Дорожная и пожарная безопасность</a>
+        </div>
+      </details>
+
+      <details class="acc">
+        <summary>📁 Документы, отчеты и ГИА</summary>
+        <div class="acc-body">
+          <a href="#sectionsBlock">Подготовка к ОГЭ, ЕГЭ и ВПР</a>
+          <a href="#sectionsBlock">Отчеты, планы и результаты проверок</a>
+          <a href="#sectionsBlock">Прием в школу и вакантные места</a>
+        </div>
+      </details>
+    </div>
+
+    <div class="sec-title">
+      <span>Новости школы</span>
+      <div class="tabs">
+        <button type="button" class="tab active" data-filter="all">Все здания</button>
+        <button type="button" class="tab" data-filter="54">ул. Пролетарская, 54</button>
+        <button type="button" class="tab" data-filter="44">ул. Пролетарская, 44</button>
+      </div>
+    </div>
+
+    <div class="news-grid">
+      <article class="card news-item" data-b="54">
+        <div>
+          <div class="news-date">ул. Пролетарская, д. 54</div>
+          <h3>Советы родителям первоклассников в период адаптации к школе</h3>
+        </div>
+        <button type="button" class="btn btn-outline btn-news-read">Читать новость</button>
+      </article>
+      <article class="card news-item" data-b="44">
+        <div>
+          <div class="news-date">ул. Пролетарская, д. 44</div>
+          <h3>Сдавай ГТО! Итоги школьного спортивного фестиваля</h3>
+        </div>
+        <button type="button" class="btn btn-outline btn-news-read">Читать новость</button>
+      </article>
+      <article class="card news-item" data-b="54">
+        <div>
+          <div class="news-date">ул. Пролетарская, д. 54</div>
+          <h3>Акция «Пристегни ремни!» — безопасность на дорогах</h3>
+        </div>
+        <button type="button" class="btn btn-outline btn-news-read">Читать новость</button>
+      </article>
+    </div>
+  </section>
+
+  <!-- ИНТЕРАКТИВНЫЙ 3D-МАКЕТ ШКОЛЫ -->
+  <section id="view3D" class="view-section">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+      <div>
+        <h2 style="font-size:22px;">Интерактивный 3D-макет школы</h2>
+        <p style="font-size:13px; color:var(--text-muted);">Вращайте здание пальцем или мышкой. Нажимайте на объекты и даты в календаре.</p>
+      </div>
+      <button type="button" class="btn btn-outline" id="btnBackHome">← Назад на главную</button>
+    </div>
+
+    <div class="layout-3d">
+      <div>
+        <div class="canvas-wrap" id="canvasBox">
+          <div class="scene-status" id="modelStatus">Загрузка 3D-макета...</div>
+          <canvas id="glCanvas"></canvas>
+          <div class="scene-pins">
+            <button type="button" class="pin-btn active" data-info="schedule">📋 Доска расписания</button>
+            <button type="button" class="pin-btn" data-info="teachers">👩‍🏫 Учителя и администрация</button>
+            <button type="button" class="pin-btn" data-info="journal">📓 Кабинеты и Эл. журнал</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge">Календарь школьных событий</span>
+        <p style="font-size:13px; color:var(--text-muted);">Выберите отмеченную дату, чтобы увидеть событие на территории школы:</p>
+        <div class="cal-grid">
+          <div class="cal-day">11</div><div class="cal-day">12</div><div class="cal-day">13</div><div class="cal-day">14</div>
+          <button type="button" class="cal-day cal-event" data-event="subbotnik">15 🍂</button>
+          <div class="cal-day">16</div><div class="cal-day">17</div>
+          <div class="cal-day">18</div><div class="cal-day">19</div><div class="cal-day">20</div><div class="cal-day">21</div>
+          <button type="button" class="cal-day cal-event" data-event="sport">22 🏆</button>
+          <div class="cal-day">23</div><div class="cal-day">24</div>
+          <div class="cal-day">25</div><div class="cal-day">26</div><div class="cal-day">27</div><div class="cal-day">28</div><div class="cal-day">29</div>
+          <button type="button" class="cal-day cal-event" data-event="newyear">30 🎄</button>
+          <button type="button" class="cal-day cal-event selected" data-event="normal">Обычный день</button>
+        </div>
+
+        <div class="info-panel" id="dynamicPanel"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- МОДАЛЬНОЕ ОКНО -->
+<div class="modal" id="askModal">
+  <div class="modal-card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <h3 style="font-size:18px;">Задать вопрос школе</h3>
+      <button type="button" id="btnCloseModal" style="border:none; background:none; font-size:20px; cursor:pointer;">✕</button>
+    </div>
+    <form id="askForm">
+      <div class="field"><label>Ваше имя</label><input type="text" required placeholder="Иван Иванов"></div>
+      <div class="field"><label>Контакт для ответа</label><input type="text" required placeholder="Email или телефон"></div>
+      <div class="field"><label>Сообщение</label><textarea rows="3" required placeholder="Ваш вопрос..."></textarea></div>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Отправить</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <strong>МОУ «Агаповская СОШ №1 имени П.А. Скачкова»</strong><br>
+    457400, Челябинская область, с. Агаповка, ул. Пролетарская, д. 54
+  </div>
+</footer>
+
+<script>
+// 1. Навигация между главной и 3D-макетом
+const viewHome = document.getElementById('viewHome');
+const view3D = document.getElementById('view3D');
+let glStarted = false;
+
+function show3D() {
+  viewHome.classList.remove('active');
+  view3D.classList.add('active');
+  window.scrollTo(0, 0);
+  if (!glStarted) {
+    glStarted = true;
+    init3DScene();
+  }
+}
+
+function showHome() {
+  view3D.classList.remove('active');
+  viewHome.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+document.getElementById('nav3D').addEventListener('click', show3D);
+document.getElementById('heroBtn3D').addEventListener('click', show3D);
+document.getElementById('navHome').addEventListener('click', showHome);
+document.getElementById('btnBackHome').addEventListener('click', showHome);
+
+// Контраст и модалка
+document.getElementById('btnContrast').addEventListener('click', () => document.body.classList.toggle('contrast'));
+const askModal = document.getElementById('askModal');
+document.getElementById('btnAsk').addEventListener('click', () => askModal.classList.add('open'));
+document.getElementById('btnDirectorAsk').addEventListener('click', () => askModal.classList.add('open'));
+document.getElementById('btnCloseModal').addEventListener('click', () => askModal.classList.remove('open'));
+document.getElementById('askForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  alert('Обращение отправлено!');
+  askModal.classList.remove('open');
+});
+document.querySelectorAll('.btn-news-read').forEach(b => b.addEventListener('click', () => alert('Открытие полного текста новости школы.')));
+
+// Фильтр новостей
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const f = tab.dataset.filter;
+    document.querySelectorAll('.news-item').forEach(item => {
+      item.style.display = (f === 'all' || item.dataset.b === f) ? 'flex' : 'none';
+    });
+  });
+});
+
+// 2. Контент интерактивных карточек в 3D-разделе
+const panel = document.getElementById('dynamicPanel');
+const infoData = {
+  schedule: `<h4>📋 Доска расписания (на ближайшую неделю)</h4>
+    <p><strong>1 урок:</strong> 08:30 – 09:10 • <strong>2 урок:</strong> 09:25 – 10:05</p>
+    <p><strong>3 урок:</strong> 10:25 – 11:05 • <strong>4 урок:</strong> 11:25 – 12:05</p>
+    <p style="margin-top:6px; color:#0284c7;"><strong>Изменения:</strong> у 9А класса физика перенесена в каб. 204 («Точка роста»).</p>`,
+  teachers: `<h4>👩‍🏫 Состав администрации и учителей</h4>
+    <p>• <strong>Губаренко Ирина Геннадьевна</strong> — Директор школы</p>
+    <p>• <strong>Заместители директора</strong> по УВР и воспитательной работе</p>
+    <p>• <strong>Кафедры:</strong> начальных классов, математики и информатики, филологии, естественных наук.</p>`,
+  journal: `<h4>📓 Интерактивный журнал (Кабинет 9 «А»)</h4>
+    <p style="font-size:12px; color:#475569;">Нажмите на оценку в таблице, чтобы изменить её (демо):</p>
+    <table class="journal">
+      <tr><th>Ученик</th><th>Алгебра</th><th>Физика</th><th>Д/З</th></tr>
+      <tr><td>Алексеев Д.</td><td class="grade-cell">5</td><td class="grade-cell">4</td><td>§14, №122</td></tr>
+      <tr><td>Смирнова А.</td><td class="grade-cell">5</td><td class="grade-cell">5</td><td>§14, №122</td></tr>
+      <tr><td>Козлов М.</td><td class="grade-cell">4</td><td class="grade-cell">Н</td><td>Повторить</td></tr>
+    </table>`
+};
+
+const eventData = {
+  normal: `<h4>🏫 Обычный учебный день</h4><p>Занятия идут по основному расписанию. Работают кружки центра «Точка роста» и школьная столовая.</p>`,
+  subbotnik: `<h4>🍂 15 число — Общешкольный субботник!</h4><p><strong>На территории школы:</strong> ученики и учителя вышли с граблями и мешками на уборку школьного двора и аллеи.</p><p><strong>Сбор:</strong> 13:30 у главного крыльца. Инвентарь выдается на месте.</p>`,
+  sport: `<h4>🏆 22 число — Школьная Спартакиада и ГТО!</h4><p><strong>На спортплощадке:</strong> проходят эстафеты, забеги и торжественное вручение медалей победителям соревнований!</p>`,
+  newyear: `<h4>🎄 30 число — Новогодние каникулы!</h4><p><strong>Режим работы:</strong> школа закрыта на каникулы с 30 декабря по 11 января.</p><p><strong>На площади у школы:</strong> установлена праздничная ёлка, Дед Мороз поздравляет ребят. Работают зимние секции по расписанию.</p>`
+};
+
+function renderInfo(html) {
+  panel.innerHTML = html;
+  panel.querySelectorAll('.grade-cell').forEach(cell => {
+    cell.addEventListener('click', () => {
+      const cycle = ['5', '4', '3', 'Н', '5'];
+      const idx = cycle.indexOf(cell.textContent.trim());
+      cell.textContent = cycle[(idx + 1) % cycle.length];
+    });
+  });
+}
+renderInfo(infoData.schedule);
+
+document.querySelectorAll('.pin-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.pin-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderInfo(infoData[btn.dataset.info]);
+  });
+});
+
+let currentEvent = 'normal';
+document.querySelectorAll('.cal-event').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cal-event').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    currentEvent = btn.dataset.event;
+    const box = document.getElementById('canvasBox');
+    if (currentEvent === 'newyear') box.classList.add('winter');
+    else box.classList.remove('winter');
+    renderInfo(eventData[currentEvent]);
+  });
+});
+
+// 3. Автономный 3D-рендерер (без внешних библиотек + загрузка OBJ модели дизайнера)
+function init3DScene() {
+  const canvas = document.getElementById('glCanvas');
+  const ctx = canvas.getContext('2d');
+  const statusEl = document.getElementById('modelStatus');
+
+  let rotY = -0.55, rotX = 0.38, zoom = 1.0;
+  let dragging = false, lastX = 0, lastY = 0;
+
+  canvas.addEventListener('pointerdown', e => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
+  window.addEventListener('pointerup', () => dragging = false);
+  window.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    rotY += (e.clientX - lastX) * 0.01;
+    rotX = Math.max(0.1, Math.min(1.2, rotX + (e.clientY - lastY) * 0.008));
+    lastX = e.clientX; lastY = e.clientY;
+  });
+
+  // Резервная 3D-модель школы (кубы и крыша)
+  let modelTris = [];
+  function buildFallbackSchool() {
+    const boxes = [
+      {x:0, y:0.45, z:0, w:2.2, h:0.9, d:1.1, c:'#f8fafc'},   // Главный корпус
+      {x:-0.9, y:0.35, z:0.6, w:0.6, h:0.7, d:0.5, c:'#e2e8f0'},// Левое крыло
+      {x:0.9, y:0.35, z:0.6, w:0.6, h:0.7, d:0.5, c:'#e2e8f0'}, // Правое крыло
+      {x:0, y:0.95, z:0, w:2.3, h:0.15, d:1.2, c:'#b91c1c'},    // Крыша
+      {x:0, y:0.25, z:0.62, w:0.4, h:0.5, d:0.2, c:'#1d4ed8'}   // Вход
+    ];
+    const tris = [];
+    boxes.forEach(b => {
+      const x0=b.x-b.w/2, x1=b.x+b.w/2, y0=b.y-b.h/2, y1=b.y+b.h/2, z0=b.z-b.d/2, z1=b.z+b.d/2;
+      const v = [[x0,y0,z0],[x1,y0,z0],[x1,y1,z0],[x0,y1,z0],[x0,y0,z1],[x1,y0,z1],[x1,y1,z1],[x0,y1,z1]];
+      const faces = [[4,5,6],[4,6,7],[1,0,3],[1,3,2],[5,1,2],[5,2,6],[0,4,7],[0,7,3],[7,6,2],[7,2,3]];
+      faces.forEach(f => tris.push({p:[v[f[0]], v[f[1]], v[f[2]]], c:b.c}));
+    });
+    return tris;
+  }
+  modelTris = buildFallbackSchool();
+
+  // Попытка загрузить реальную модель дизайнера cartoon_school_model 2.txt
+  fetch(encodeURI('cartoon_school_model 2.txt'))
+    .then(r => { if (!r.ok) throw new Error(); return r.text(); })
+    .then(txt => {
+      const verts = [];
+      const loadedTris = [];
+      let minX=1e9, maxX=-1e9, minY=1e9, maxY=-1e9, minZ=1e9, maxZ=-1e9;
+      const lines = txt.split('\n');
+      for (let i = 0; i < lines.length; i++) {
+        const l = lines[i].trim();
+        if (l.startsWith('v ')) {
+          const p = l.split(/\s+/);
+          const x = parseFloat(p[1]), y = parseFloat(p[2]), z = parseFloat(p[3]);
+          verts.push([x, y, z]);
+          if (x<minX) minX=x; if (x>maxX) maxX=x;
+          if (y<minY) minY=y; if (y>maxY) maxY=y;
+          if (z<minZ) minZ=z; if (z>maxZ) maxZ=z;
+        } else if (l.startsWith('f ')) {
+          const p = l.split(/\s+/).slice(1).map(s => parseInt(s.split('/')[0], 10) - 1);
+          for (let k = 1; k < p.length - 1; k++) {
+            if (verts[p[0]] && verts[p[k]] && verts[p[k+1]]) {
+              loadedTris.push([p[0], p[k], p[k+1]]);
+            }
+          }
+        }
+      }
+      if (loadedTris.length > 0) {
+        const cx = (minX+maxX)/2, cz = (minZ+maxZ)/2, cy = minY;
+        const scale = 2.4 / Math.max(maxX-minX, maxY-minY, maxZ-minZ || 1);
+        const normV = verts.map(v => [(v[0]-cx)*scale, (v[1]-cy)*scale, (v[2]-cz)*scale]);
+        // Оптимизация для плавности на телефоне
+        const step = Math.max(1, Math.floor(loadedTris.length / 2500));
+        const res = [];
+        for (let i = 0; i < loadedTris.length; i += step) {
+          const t = loadedTris[i];
+          res.push({ p: [normV[t[0]], normV[t[1]], normV[t[2]]], c: '#f8fafc' });
+        }
+        modelTris = res;
+        statusEl.textContent = '3D-модель школы загружена • Крутите пальцем';
+      } else {
+        statusEl.textContent = '3D-макет школы • Крутите пальцем';
+      }
+    })
+    .catch(() => {
+      statusEl.textContent = '3D-макет школы • Крутите пальцем';
+    });
+
+  function project(x, y, z, w, h) {
+    const cy = Math.cos(rotY), sy = Math.sin(rotY);
+    const x1 = x * cy - z * sy;
+    const z1 = x * sy + z * cy;
+    const cx = Math.cos(rotX), sx = Math.sin(rotX);
+    const y2 = y * cx - z1 * sx;
+    const z2 = y * sx + z1 * cx;
+    const fov = 4.2;
+    const s = (fov / (fov + z2 + 2.5)) * Math.min(w, h) * 0.55 * zoom;
+    return { x: w/2 + x1 * s, y: h*0.62 - y2 * s, z: z2 };
+  }
+
+  function draw() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    if (canvas.width !== rect.width || canvas.height !== rect.height) {
+      canvas.width = rect.width; canvas.height = rect.height;
+    }
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    // Земля и спортплощадка
+    const gColor = currentEvent === 'newyear' ? '#e2e8f0' : '#86efac';
+    const ground = [[-2.2,0,-1.8],[2.2,0,-1.8],[2.2,0,1.8],[-2.2,0,1.8]].map(p => project(p[0],p[1],p[2],w,h));
+    ctx.fillStyle = gColor;
+    ctx.beginPath(); ground.forEach((p,i)=> i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y)); ctx.closePath(); ctx.fill();
+
+    // Спортплощадка справа
+    const court = [[1.2,0.01,-0.8],[2.0,0.01,-0.8],[2.0,0.01,0.8],[1.2,0.01,0.8]].map(p => project(p[0],p[1],p[2],w,h));
+    ctx.fillStyle = '#fb923c';
+    ctx.beginPath(); court.forEach((p,i)=> i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y)); ctx.closePath(); ctx.fill();
+
+    // Отрисовка 3D-треугольников школы
+    const projected = modelTris.map(t => {
+      const p0 = project(t.p[0][0], t.p[0][1], t.p[0][2], w, h);
+      const p1 = project(t.p[1][0], t.p[1][1], t.p[1][2], w, h);
+      const p2 = project(t.p[2][0], t.p[2][1], t.p[2][2], w, h);
+      return { p0, p1, p2, z: (p0.z + p1.z + p2.z)/3, c: t.c };
+    });
+    projected.sort((a, b) => b.z - a.z);
+
+    projected.forEach(t => {
+      const shade = Math.max(0.65, Math.min(1.05, 0.9 - t.z * 0.12));
+      ctx.fillStyle = t.c === '#f8fafc' ? `rgb(${Math.round(235*shade)},${Math.round(240*shade)},${Math.round(248*shade)})` : t.c;
+      ctx.strokeStyle = 'rgba(15,23,42,0.08)';
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(t.p0.x, t.p0.y); ctx.lineTo(t.p1.x, t.p1.y); ctx.lineTo(t.p2.x, t.p2.y);
+      ctx.closePath(); ctx.fill(); ctx.stroke();
+    });
+
+    // Декорации событий на сцене
+    ctx.font = '22px sans-serif';
+    ctx.textAlign = 'center';
+    if (currentEvent === 'newyear') {
+      const tree = project(-0.6, 0.1, 1.1, w, h);
+      const ded = project(-0.2, 0.1, 1.15, w, h);
+      ctx.fillText('🎄', tree.x, tree.y);
+      ctx.fillText('🎅', ded.x, ded.y);
+    } else if (currentEvent === 'subbotnik') {
+      [[-0.7,1.1], [-0.2,1.2], [0.5,1.15]].forEach(pos => {
+        const p = project(pos[0], 0.05, pos[1], w, h);
+        ctx.fillText('🧑‍🌾🍂', p.x, p.y);
+      });
+    } else if (currentEvent === 'sport') {
+      [[1.6,-0.3], [1.6,0.2], [1.5,0.6]].forEach((pos, idx) => {
+        const p = project(pos[0], 0.05, pos[1], w, h);
+        ctx.fillText(idx === 1 ? '🏅🏃' : '🏃‍♂️', p.x, p.y);
+      });
+    }
+
+    if (!dragging) rotY += 0.003;
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+</script>
+</body>
+</html>
+"""
+
+with open("generated/index.html", "w", encoding="utf-8") as f:
+    f.write(html_code)
+
+print("Saved successfully:", os.path.getsize("generated/index.html"))
